@@ -1,0 +1,213 @@
+{
+  "region": "eu-central-1",
+  "collected_at": "2026-11-11T09:00:00+00:00",
+  "services": ["dynamodb", "ec2", "elbv2", "lambda", "rds", "sqs"],
+  "alarms": [
+    {
+      "AlarmName": "prod-db-cpu",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:prod-db-cpu",
+      "Namespace": "AWS/RDS",
+      "MetricName": "CPUUtilization",
+      "Dimensions": [{ "Name": "DBInstanceIdentifier", "Value": "prod-db" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:40:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 80.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "legacy-db-cpu",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:legacy-db-cpu",
+      "Namespace": "AWS/RDS",
+      "MetricName": "CPUUtilization",
+      "Dimensions": [{ "Name": "DBInstanceIdentifier", "Value": "legacy-db" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2025-04-02T11:12:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 80.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "invoice-worker-errors",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:invoice-worker-errors",
+      "Namespace": "AWS/Lambda",
+      "MetricName": "Errors",
+      "Dimensions": [{ "Name": "FunctionName", "Value": "invoice-worker" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-10T22:05:00+00:00",
+      "AlarmActions": [],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 0.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "invoice-worker-throttles",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:invoice-worker-throttles",
+      "Namespace": "AWS/Lambda",
+      "MetricName": "Throttles",
+      "Dimensions": [{ "Name": "FunctionName", "Value": "invoice-worker" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-10T22:05:00+00:00",
+      "AlarmActions": [],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 0.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "orders-age",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:orders-age",
+      "Namespace": "AWS/SQS",
+      "MetricName": "ApproximateAgeOfOldestMessage",
+      "Dimensions": [{ "Name": "QueueName", "Value": "orders" }],
+      "StateValue": "INSUFFICIENT_DATA",
+      "StateUpdatedTimestamp": "2026-06-14T07:30:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 900.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "web-tg-unhealthy",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:web-tg-unhealthy",
+      "Namespace": "AWS/ApplicationELB",
+      "MetricName": "UnHealthyHostCount",
+      "Dimensions": [
+        { "Name": "TargetGroup", "Value": "targetgroup/web-tg/73e2d6bc24d8a067" },
+        { "Name": "LoadBalancer", "Value": "app/web/50dc6c495c0c9188" }
+      ],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:55:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 0.0,
+      "Period": 60
+    },
+    {
+      "AlarmName": "web-tg-latency",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:web-tg-latency",
+      "Namespace": "AWS/ApplicationELB",
+      "MetricName": "TargetResponseTime",
+      "Dimensions": [
+        { "Name": "TargetGroup", "Value": "targetgroup/web-tg/73e2d6bc24d8a067" },
+        { "Name": "LoadBalancer", "Value": "app/web/50dc6c495c0c9188" }
+      ],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:55:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 1.5,
+      "Period": 60
+    },
+    {
+      "AlarmName": "web-lb-5xx",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:web-lb-5xx",
+      "Namespace": "AWS/ApplicationELB",
+      "MetricName": "HTTPCode_ELB_5XX_Count",
+      "Dimensions": [{ "Name": "LoadBalancer", "Value": "app/web/50dc6c495c0c9188" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:55:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": false,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 5.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "sessions-throttles",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:sessions-throttles",
+      "Namespace": "AWS/DynamoDB",
+      "MetricName": "ThrottledRequests",
+      "Dimensions": [{ "Name": "TableName", "Value": "sessions" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:50:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+      "Threshold": 0.0,
+      "Period": 300
+    },
+    {
+      "AlarmName": "bastion-status",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:bastion-status",
+      "Namespace": "AWS/EC2",
+      "MetricName": "StatusCheckFailed",
+      "Dimensions": [{ "Name": "InstanceId", "Value": "i-0abc123def4567890" }],
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:58:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:platform-alerts"],
+      "ActionsEnabled": true,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "Threshold": 0.0,
+      "Period": 60
+    }
+  ],
+  "composite_alarms": [
+    {
+      "AlarmName": "platform-pager",
+      "AlarmArn": "arn:aws:cloudwatch:eu-central-1:111122223333:alarm:platform-pager",
+      "AlarmRule": "ALARM(\"invoice-worker-throttles\") OR ALARM(\"prod-db-cpu\")",
+      "StateValue": "OK",
+      "StateUpdatedTimestamp": "2026-11-11T08:59:00+00:00",
+      "AlarmActions": ["arn:aws:sns:eu-central-1:111122223333:pagerduty"],
+      "ActionsEnabled": true
+    }
+  ],
+  "resources": [
+    {
+      "type": "rds_instance",
+      "id": "prod-db",
+      "dimensions": { "DBInstanceIdentifier": "prod-db" },
+      "extra": { "engine": "postgres", "instance_class": "db.r6g.large", "multi_az": true }
+    },
+    {
+      "type": "rds_instance",
+      "id": "reporting-db",
+      "dimensions": { "DBInstanceIdentifier": "reporting-db" },
+      "extra": { "engine": "postgres", "instance_class": "db.t4g.medium", "multi_az": false }
+    },
+    {
+      "type": "lambda_function",
+      "id": "invoice-worker",
+      "dimensions": { "FunctionName": "invoice-worker" },
+      "extra": { "runtime": "python3.12" }
+    },
+    {
+      "type": "sqs_queue",
+      "id": "orders",
+      "dimensions": { "QueueName": "orders" }
+    },
+    {
+      "type": "target_group",
+      "id": "web-tg",
+      "dimensions": { "TargetGroup": "targetgroup/web-tg/73e2d6bc24d8a067" },
+      "extra": { "protocol": "HTTP", "target_type": "ip" }
+    },
+    {
+      "type": "load_balancer",
+      "id": "web",
+      "dimensions": { "LoadBalancer": "app/web/50dc6c495c0c9188" },
+      "extra": { "scheme": "internet-facing", "lb_type": "application" }
+    },
+    {
+      "type": "dynamodb_table",
+      "id": "sessions",
+      "dimensions": { "TableName": "sessions" }
+    },
+    {
+      "type": "ec2_instance",
+      "id": "i-0abc123def4567890",
+      "dimensions": { "InstanceId": "i-0abc123def4567890" },
+      "extra": { "instance_type": "t4g.nano", "state": "running" }
+    }
+  ],
+  "errors": []
+}

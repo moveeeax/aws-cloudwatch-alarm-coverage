@@ -1,0 +1,24 @@
+# Override the built-in metric expectations.
+#
+#   required     -> missing alarm is critical
+#   recommended  -> missing alarm is warn
+#   off          -> do not expect this metric at all
+#
+# Anything you do not mention keeps its default from rules.py.
+
+rds_instance:
+  # we run Aurora, free storage does not apply
+  FreeStorageSpace: off
+  DatabaseConnections: required
+
+lambda_function:
+  # p99 duration matters more to us than the error count alone
+  Duration: required
+
+sqs_queue:
+  ApproximateNumberOfMessagesVisible: required
+
+ec2_instance:
+  # every instance is in an ASG that replaces it, so this is informational
+  StatusCheckFailed: recommended
+  CPUUtilization: off

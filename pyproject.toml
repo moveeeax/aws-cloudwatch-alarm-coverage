@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aws-cloudwatch-alarm-coverage"
+version = "0.1.0"
+description = "Find AWS resources with no CloudWatch alarm on the metric that matters, and the alarms that only look like coverage"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Michael Tarassov", email = "michael@tarassov.me" }]
+keywords = ["aws", "cloudwatch", "alarms", "sre", "audit", "monitoring"]
+dependencies = ["boto3>=1.28", "PyYAML>=6.0"]
+
+[project.urls]
+Homepage = "https://github.com/moveeeax/aws-cloudwatch-alarm-coverage"
+
+[project.scripts]
+aws-cloudwatch-alarm-coverage = "aws_cloudwatch_alarm_coverage.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["aws_cloudwatch_alarm_coverage*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

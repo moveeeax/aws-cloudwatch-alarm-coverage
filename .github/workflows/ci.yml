@@ -1,0 +1,49 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . pytest ruff
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Test
+        run: pytest -q
+
+      - name: Smoke test the CLI on the fixture
+        run: |
+          set +e
+          aws-cloudwatch-alarm-coverage --from-json tests/fixtures/account.json --fail-on critical
+          status=$?
+          set -e
+          if [ "$status" -ne 1 ]; then
+            echo "expected exit 1 on the fixture with --fail-on critical, got $status"
+            exit 1
+          fi
+          aws-cloudwatch-alarm-coverage --from-json tests/fixtures/account.json --format markdown \
+            --fail-on none >> "$GITHUB_STEP_SUMMARY"

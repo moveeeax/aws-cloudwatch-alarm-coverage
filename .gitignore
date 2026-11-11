@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+/build/
+/dist/
+/.eggs/
+*.egg-info/
+/.venv/
+/venv/
+
+# Tooling caches
+/.pytest_cache/
+/.ruff_cache/
+/.coverage
+/htmlcov/
+
+# Local payload dumps, never the committed fixtures
+/dump.json
+/*.local.json
+
+!tests/fixtures/**
+!examples/**
